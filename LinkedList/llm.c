@@ -3,7 +3,7 @@
 int main()
 {
     Node* head = NULL;
-    int size , value , i, index, ch;
+    int size , value , i, index, ch, res;
 
     printf("Enter the size of list : ");
     scanf("%d",&size);
@@ -23,7 +23,9 @@ int main()
         printf("3: To insert a values at the nth position.\n");
         printf("4: To insert a values at the end.\n");
         printf("5: To delete a values from nth position.\n");
-        printf("6: To EXIT\n");
+        printf("6: To reverse\n");
+        printf("7: Find the value of middle node\n");
+        printf("8: EXIT\n");
 
         printf("Enter your choise :\n");
         scanf("%d", &ch);
@@ -59,13 +61,21 @@ int main()
                 printf("Enter a index to delete : ");
                 scanf("%d",&index);
 
-                if( index>=1 || index<=size )
+                if( index >= 1 || index <= size )
                     delete(&head , index); 
                 else
                     printf("Invalid index input");   
                 printf("\n");            
                 break;
             case 6:
+                reverse_rec(head);
+                printf("\n");
+                break;
+            case 7:
+                res = middle_node(head , size);
+                printf("\n");
+                break;
+            case 8:
                 return 0;
             
         }

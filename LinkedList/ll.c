@@ -32,6 +32,9 @@ void append(Node** head, int value)
 
 void traverse(Node* head)
 {
+    if(head == NULL)
+        printf("Empty");
+    
     while(head != NULL)
     {
         printf("%d ",head->data);
@@ -84,7 +87,7 @@ void insert_at_end(Node** head , int value)
     current->next = temp;
 }
 
-void delete(Node **head,int n)
+void delete(Node** head,int n)
 {
     Node* current = *head, *temp;
     int i=1;
@@ -97,4 +100,66 @@ void delete(Node **head,int n)
     temp = current->next;
     current->next = temp->next;
     free(temp);
+}
+
+/*void reverse(Node* head , int n)
+{
+    int i;
+    ITEM arr[n];
+
+    while(head != NULL)
+    {
+        for(i=0; i<n; i++)
+        {
+            arr[i] = head->data;
+            head = head->next;
+        }
+
+    }
+
+    for(i=n; i>=0; i--)
+    {
+        printf("%d ",arr[i]);
+    }
+}*/
+
+void reverse_rec(Node* head)
+{
+    if(head != NULL)
+    {
+        reverse_rec(head->next);
+        printf("%d ",head->data);
+    }
+
+}
+
+int middle_node(Node* head , int n)
+{
+    Node* current = head;
+    int i = 1, f = 0, size;
+    size = (n+1)/2;
+
+    if(n%2 == 0)
+        f = 1;
+    
+    if(f == 1)
+    {
+        if(i == size+1)
+            return current;
+        else
+        {
+            current = current->next;
+            i++;
+        }
+    }
+    else
+    {
+        if(i == size)
+            return current;
+        else
+        {
+            current = current->next;
+            i++;
+        }
+    }
 }
