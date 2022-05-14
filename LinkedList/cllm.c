@@ -1,6 +1,5 @@
 #include "cll.h"
 
-
 int main()
 {
     Node* head = NULL;
