@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define S 4
+#define S 5
 
 typedef struct
 {

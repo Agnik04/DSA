@@ -37,7 +37,7 @@ int main()
                 else
                 {
                     printf("Enter the data you want to push into your stack :");
-                            scanf("%d", &data);
+                    scanf("%d", &data);
                     enqueue(&q, data);                    
                 }
                 break;
