@@ -8,7 +8,7 @@ void init(Queue *q)
 
 int isempty(Queue *q)
 {
-    if(q->rear == q->front)
+    if((q->rear == -1) && (q->front == -1))
         return 1;
     else
         return 0;
