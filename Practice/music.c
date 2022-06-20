@@ -69,15 +69,13 @@ void add_after(Node* head, int pos, char* str, FILE* fp)
 
     temp->prev = position;
     temp->next = position->next;
-    position->next->prev = temp;
+    if(position->next != NULL)
+        position->next->prev = temp;
     position->next = temp;
 
-    fp = fopen("playlist.txt", "w");
-    while (head != NULL)
-    {
-        fprintf(fp, "%s", head->data);
-        head = head->next;
-    }
+    fp = fopen("playlist.txt","a");
+    fputs(temp->data , fp);
+    //update_file(&position , fp);
 }
 
 void add_before(Node **head, int pos, char *str, FILE *fp)
@@ -87,7 +85,8 @@ void add_before(Node **head, int pos, char *str, FILE *fp)
 
     if (pos == 1)
     {
-        temp->prev = NULL;
+        (*head)->prev->next = temp;
+        temp->prev = (*head)->prev;
         temp->next = (*head);
         (*head)->prev = temp;
         (*head) = temp;
@@ -103,12 +102,12 @@ void add_before(Node **head, int pos, char *str, FILE *fp)
     }
 
     current = *head;
-    fp = fopen("music.txt", "w");
-    while (current != NULL)
+    fp = fopen("music.txt", "a");
+    do
     {
         fprintf(fp, "%s", current->data);
         current = current->next;
-    }
+    }while (current != *head);
 }
 
 void traverse(Node* head)
@@ -147,7 +146,7 @@ void delete (Node **head, int pos, FILE *fp)
     }
 
     current = *head;
-    fp = fopen("music.txt", "w");
+    fp = fopen("music.txt", "a");
     while (current != NULL)
     {
         fprintf(fp, "%s", current->data);
@@ -169,7 +168,7 @@ void sort_list(Node **head, FILE *fp)
 
     current = new_head;
 
-    fp = fopen("music.txt", "w");
+    fp = fopen("music.txt", "a");
     while (current != NULL)
     {
         fprintf(fp, "%s", (current)->data);
@@ -203,4 +202,12 @@ void insert_sorted(Node **head, Node *tmp)
     current->next = tmp;
     if (current->next != NULL)
         current->next->prev = tmp;
+}
+
+void update_file(Node *head, FILE *fp)
+{
+    fp = fopen("playlist.txt", "a");
+    //fseek(fp, SEEK_SET, 0);
+
+    fputs(head->data, fp);        
 }

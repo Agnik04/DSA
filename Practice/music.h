@@ -19,3 +19,4 @@ void traverse(Node* head);
 void delete (Node **head, int psition, FILE *fp);
 void sort_list(Node **head, FILE *fp);
 void insert_sorted(Node **head, Node *tmp);
+void update_file(Node *head, FILE *fp);

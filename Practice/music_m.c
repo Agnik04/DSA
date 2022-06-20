@@ -12,7 +12,7 @@ int main()
 
     while ((fgets(str, sizeof(str), fp)))
         add_end(&head, str);
-    
+	fclose(fp);
     current = head;
     
 
@@ -56,7 +56,7 @@ int main()
                     printf("\nThe playlist is Empty\n");
 
                 printf("Enter the position of the track: ");
-                scanf("%d",&position);
+                scanf("%d%c",&position,&dummy);
                 current = search_track(head, position);
 
                 if(current != NULL)
