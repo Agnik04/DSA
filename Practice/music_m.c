@@ -30,7 +30,6 @@ int main()
         printf("Press B: Add a track before an existing track.\n");
         printf("Press R: Remove a specific track from the list.\n");
         printf("Press O: Sort the tracks in alphabetical order.\n");
-        printf("Press D: Display all tracks, Add a * besides the current track.\n");
         printf("Press T: Stop the player.\n\n");
 
         printf("Enter your choice :\n");
@@ -110,7 +109,7 @@ int main()
                 scanf("%d%c", &position, &dummy);
                 printf("\nEnter a track: ");
                 fgets(str, sizeof(str), stdin);
-                add_after(head, position, str, fp);
+                add_after(head, position, str);
                 break;
 
              case 'B':
@@ -118,20 +117,27 @@ int main()
                 scanf("%d%c", &position, &dummy);
                 printf("\nEnter a track: ");
                 fgets(str, sizeof(str), stdin);
-                add_before(&head, position, str, fp);
+                add_before(&head, position, str);
                 break;
                 
             case 'R':
                 printf("\nEnter a pos: ");
                 scanf("%d%c", &position, &dummy);
-                delete (&head, position, fp);
+                delete (&head, position);
                 break;
 
             case 'O':
-                sort_list(&head, fp);
+                sort_list(&head);
                 break;
-
             case 'T':
+                fp = fopen("playlist.txt","w");
+                current = head;
+                do
+                {
+                    fprintf(fp, "%s",current->data);
+                    current = current->next;
+                }while(current != head);
+                fclose(fp);
                 return 0;
             default :
                 printf("Enter the correct choice.\n");
