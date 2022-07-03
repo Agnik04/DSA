@@ -60,7 +60,7 @@ Node* search_track(Node* head , int position)
     return head;
 }
 
-void add_after(Node* head, int pos, char* str, FILE* fp)
+void add_after(Node* head, int pos, char* str)
 {
     Node *temp, *position = NULL;
 
@@ -69,16 +69,11 @@ void add_after(Node* head, int pos, char* str, FILE* fp)
 
     temp->prev = position;
     temp->next = position->next;
-    if(position->next != NULL)
-        position->next->prev = temp;
+    position->next->prev = temp;
     position->next = temp;
-
-    fp = fopen("playlist.txt","a");
-    fputs(temp->data , fp);
-    //update_file(&position , fp);
 }
 
-void add_before(Node **head, int pos, char *str, FILE *fp)
+void add_before(Node **head, int pos, char *str)
 {
     Node *temp, *position = NULL, *current;
     temp = create_node(str);
@@ -100,14 +95,6 @@ void add_before(Node **head, int pos, char *str, FILE *fp)
         position->prev->next = temp;
         position->prev = temp;
     }
-
-    current = *head;
-    fp = fopen("music.txt", "a");
-    do
-    {
-        fprintf(fp, "%s", current->data);
-        current = current->next;
-    }while (current != *head);
 }
 
 void traverse(Node* head)
@@ -118,20 +105,20 @@ void traverse(Node* head)
         return;
     do
     {
-        printf("%s ", current->data);
+        printf("%s", current->data);
         current = current->next;
     }while (current != head);
     printf("\n");
 }
 
-void delete (Node **head, int pos, FILE *fp)
+void delete(Node **head, int pos)
 {
     Node *position = NULL, *tmp = NULL, *current;
 
     if (pos == 1)
     {
         tmp = *head;
-        (*head)->next->prev = NULL;
+        (*head)->next->prev = (*head)->prev;
         (*head) = (*head)->next;
         free(tmp);
     }
@@ -144,21 +131,13 @@ void delete (Node **head, int pos, FILE *fp)
         position->next->prev = tmp;
         free(position);
     }
-
-    current = *head;
-    fp = fopen("music.txt", "a");
-    while (current != NULL)
-    {
-        fprintf(fp, "%s", current->data);
-        current = current->next;
-    }
 }
 
-void sort_list(Node **head, FILE *fp)
+void sort_list(Node **head)
 {
     Node *current = *head, *tmp = NULL, *new_head = NULL;
 
-    while (current != NULL)
+    while (current != *head)
     {
         tmp = current->next;
         insert_sorted(&new_head, create_node(current->data));
@@ -166,14 +145,7 @@ void sort_list(Node **head, FILE *fp)
         current = tmp;
     }
 
-    current = new_head;
-
-    fp = fopen("music.txt", "a");
-    while (current != NULL)
-    {
-        fprintf(fp, "%s", (current)->data);
-        current = (current)->next;
-    }
+    *head = new_head;
 }
 
 void insert_sorted(Node **head, Node *tmp)
@@ -189,25 +161,16 @@ void insert_sorted(Node **head, Node *tmp)
     if (strcmp((*head)->data, tmp->data) > 0)
     {
         tmp->next = *head;
-        tmp->prev = NULL;
+        tmp->prev = (*head)->prev;
         (*head)->prev = tmp;
         *head = tmp;
         return;
     }
-    while ((current->next != NULL) && (strcmp(current->next->data, tmp->data) < 0))
+    while ((current->next != *head) && (strcmp(current->next->data, tmp->data) < 0))
         current = current->next;
 
     tmp->next = current->next;
     tmp->prev = current;
     current->next = tmp;
-    if (current->next != NULL)
-        current->next->prev = tmp;
-}
-
-void update_file(Node *head, FILE *fp)
-{
-    fp = fopen("playlist.txt", "a");
-    //fseek(fp, SEEK_SET, 0);
-
-    fputs(head->data, fp);        
+    current->next->prev = tmp;
 }
