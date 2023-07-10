@@ -2,7 +2,7 @@
 
 int main()
 {
-    Node* head = NULL;
+    Node* head = NULL, head1;
     int size , value , i, index, ch, res;
 
     printf("Enter the size of list : ");
